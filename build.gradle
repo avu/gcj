@@ -15,7 +15,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 test {
-    systemProperty "java.library.path", file("${buildDir}/libs/hello/shared").absolutePath
+    systemProperty "java.library.path", file("${buildDir}/libs/borracha3/shared").absolutePath
 }
 
 model {
@@ -26,13 +26,14 @@ model {
   }
 
   components {
-    hello(NativeLibrarySpec) {
+    borracha3(NativeLibrarySpec) {
         binaries.all {
         if (targetPlatform.operatingSystem.macOsX) {
             cCompiler.args '-I', "${org.gradle.internal.jvm.Jvm.current().javaHome}/include"
             cCompiler.args '-I', "${org.gradle.internal.jvm.Jvm.current().javaHome}/include/darwin"
-            cCompiler.args '-mmacosx-version-min=10.4'
-            linker.args '-mmacosx-version-min=10.4'
+            cCompiler.args '-mmacosx-version-min=10.9'
+            cCompiler.args '-stdlib=libc++'
+            linker.args '-mmacosx-version-min=10.9'
         } else if (targetPlatform.operatingSystem.linux) {
             cCompiler.args '-I', "${org.gradle.internal.jvm.Jvm.current().javaHome}/include"
             cCompiler.args '-I', "${org.gradle.internal.jvm.Jvm.current().javaHome}/include/linux"
@@ -50,4 +51,4 @@ model {
   }
 }
 
-test.dependsOn  'helloSharedLibrary'
+test.dependsOn  'borracha3SharedLibrary'
